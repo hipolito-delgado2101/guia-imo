@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 const projectRoot = await realpath(path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..'));
 const hostname = '127.0.0.1';
 const port = Number(process.env.PORT || 4173);
-const entryFiles = new Set(['index.html', 'styles.css', 'app.js', 'domain.js', 'content-data.js']);
+const entryFiles = new Set(['index.html', 'styles.css', 'app.js', 'domain.js', 'content-data.js', 'geo.js']);
 const mimeTypes = {
   '.html': 'text/html; charset=utf-8',
   '.css': 'text/css; charset=utf-8',

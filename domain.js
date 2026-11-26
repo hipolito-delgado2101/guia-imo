@@ -50,7 +50,21 @@
     if(departure!==null && departure<0) result.push({id:'departure-past',level:'warning',title:'La fecha prevista de operación ya pasó',body:'Actualiza la fecha o conserva el expediente como registro de la operación.',view:'identification'});
     return result;
   }
-  const api={normalize,normalizeUN,findCargo,suggestCargo,dateDays,documents,isDocumentComplete,progress,alerts};
+  function hasCargo(state) { return Boolean(state.name?.trim() || state.un?.trim() || state.components?.trim() || state.attachment); }
+  function restoreWorkspace(saved, create) {
+    const valid = row => row && typeof row.id === 'string' && row.docs && typeof row.docs === 'object' && !Array.isArray(row.docs);
+    const source = saved?.version === 2 && Array.isArray(saved.operations) ? saved.operations : saved?.version === 1 ? [saved] : [];
+    const ids = new Set();
+    const operations = source.filter(row => { if (!valid(row) || ids.has(row.id)) return false; ids.add(row.id); return true; }).map(row => ({...create(), ...row}));
+    if (!operations.length) operations.push(create());
+    return {version:2, activeId:operations.some(row => row.id === saved?.activeId) ? saved.activeId : operations[0].id, operations};
+  }
+  function summarize(operations, now = new Date()) {
+    const rows = operations.filter(hasCargo);
+    const totals = rows.reduce((sum, row) => { const p = progress(row, now); sum.done += p.done; sum.total += p.total; if (p.percent === 100) sum.complete++; return sum; }, {done:0,total:0,complete:0});
+    return {...totals, count:rows.length, pending:totals.total-totals.done, percent:totals.total ? Math.round(totals.done/totals.total*100) : 0};
+  }
+  const api={normalize,normalizeUN,findCargo,suggestCargo,dateDays,documents,isDocumentComplete,progress,alerts,hasCargo,restoreWorkspace,summarize};
   root.IMO_DOMAIN=api;
   if(typeof module!=='undefined' && module.exports) module.exports=api;
 })(globalThis);

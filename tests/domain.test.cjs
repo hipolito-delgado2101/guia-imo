@@ -130,3 +130,30 @@ test('an expired checked document stays pending and triggers the pre-departure w
   state.docs.fds.date='2026-12-30';
   assert.ok(!D.alerts(state,today).some(x=>['pending','departure'].includes(x.id)));
 });
+
+test('migrating an existing operation keeps its attachment id and checklist', () => {
+  const old = operation({version:1,id:'existing',name:'Etanol',attachment:{name:'fds.pdf'},docs:{fds:{done:true,note:'Revisada'}}});
+  const restored = D.restoreWorkspace(old, () => operation({id:'new'}));
+  assert.equal(restored.version,2);
+  assert.equal(restored.activeId,'existing');
+  assert.deepEqual(restored.operations[0],old);
+});
+
+test('restoring a workspace keeps independent records and ignores duplicate ids', () => {
+  const first=operation({id:'a',name:'Etanol',docs:{fds:{done:true}}});
+  const second=operation({id:'b',name:'Acetona'});
+  const restored=D.restoreWorkspace({version:2,activeId:'b',operations:[first,second,first,null]},()=>operation({id:'fallback'}));
+  assert.equal(restored.activeId,'b');
+  assert.equal(restored.operations.length,2);
+  restored.operations[1].docs.fds={done:false};
+  assert.equal(restored.operations[0].docs.fds.done,true);
+  assert.equal(D.restoreWorkspace(null,()=>operation({id:'draft'})).activeId,'draft');
+});
+
+test('dashboard aggregates applicable documents, excluding drafts and expired reviews', () => {
+  const first=reviewedOperation({name:'Etanol'});
+  const second=operation({name:'Baterias',un:'3480',docs:{fds:{done:true},dgd:{done:true,date:'2026-11-20'}}});
+  const result=D.summarize([first,second,operation({name:''})],today);
+  assert.deepEqual(result,{done:7,total:13,complete:1,count:2,pending:6,percent:54});
+  assert.deepEqual(D.summarize([],today),{done:0,total:0,complete:0,count:0,pending:0,percent:0});
+});

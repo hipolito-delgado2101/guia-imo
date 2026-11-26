@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const outputRoot = path.join(projectRoot, 'dist');
-const entryFiles = ['index.html', 'styles.css', 'app.js', 'domain.js', 'content-data.js'];
+const entryFiles = ['index.html', 'styles.css', 'app.js', 'domain.js', 'content-data.js', 'geo.js'];
 const assetExtensions = new Set(['.svg', '.png', '.jpg', '.jpeg', '.webp', '.avif', '.gif', '.ico', '.woff', '.woff2']);
 let copied = 0;
 

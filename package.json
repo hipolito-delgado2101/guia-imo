@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node scripts/serve.mjs",
     "start": "node scripts/serve.mjs",
-    "check": "node --check app.js && node --check domain.js && node --check content-data.js && node --test tests/*.test.cjs",
+    "check": "node --check app.js && node --check domain.js && node --check content-data.js && node --check geo.js && node --test tests/*.test.cjs",
     "build": "node scripts/build.mjs"
   },
   "engines": {

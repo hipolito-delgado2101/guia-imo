@@ -2,13 +2,11 @@ node_modules/
 dist/
 artifacts/
 outputs/
-.site-workflow-state/
 .DS_Store
 Thumbs.db
 *.log
 .env
 .env.*
 !.env.example
-.openai/local*
 *.tar
 *.tar.gz

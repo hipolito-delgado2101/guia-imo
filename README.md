@@ -1,36 +1,22 @@
 # Guía IMO
 
-```sh
-npm run dev
-```
-## Funciones
+## Requisitos
 
-- **Identificación:** nombre de la mercancía, componentes, número ONU opcional y archivo de la ficha de datos de seguridad (FDS).
-- **Clasificación orientativa:** consulta de un catálogo limitado de referencias ONU, clase, riesgos, etiquetas y grupo de embalaje cuando corresponde.
-- **Documentación y permisos:** preparación de documentos a revisar según la mercancía, operación y destino; incluye DGD, FDS y documentación de transporte.
-- **Checklist:** seguimiento de documentos disponibles y pendientes, con observaciones y fechas cuando corresponda.
-- **Guía de seguridad:** información general sobre manipulación, almacenamiento, embalaje, etiquetado y segregación.
-- **Alertas:** pendientes y vencimientos visibles en la aplicación, con notificaciones del navegador cuando este lo permite y el usuario las autoriza.
+- Node.js 22 o posterior, con npm.
+- Un navegador web actualizado.
 
-## Verificar y preparar publicación
+## Instalación y ejecución
 
-```sh
-npm run check
-npm run build
-```
+1. Descarga el proyecto y descomprímelo si está en formato ZIP.
+2. Abre una terminal dentro de la carpeta del proyecto.
+3. Inicia la aplicación:
 
-## Organización del código
+   ```sh
+   npm run dev
+   ```
 
-```text
-index.html                 Estructura y accesibilidad
-styles.css                 Diseño y adaptación a pantallas
-app.js                     Interfaz y almacenamiento local
-domain.js                  Reglas y funciones de la aplicación
-content-data.js            Referencias y contenido orientativo
-assets/                    Recursos visuales
-design-skills/             Skills de diseño incorporadas
-tests/                     Pruebas de la lógica
-scripts/serve.mjs          Vista previa local
-scripts/build.mjs          Preparación de archivos públicos
-.github/workflows/deploy.yml  Publicación en GitHub Pages
-```
+4. Abre en tu navegador la dirección local que muestra la terminal.
+
+No es necesario ejecutar `npm install`: el proyecto no requiere dependencias adicionales.
+
+Para detener la aplicación, presiona `Ctrl+C` en la terminal.
